@@ -92,7 +92,7 @@
         .zoom-controls { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
         .btn-zoom { width: auto; padding: 6px 16px; margin: 0; font-size: 1.1em; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; background: var(--slate-dark); color: white; line-height: 1; }
         .zoom-label { font-size: 0.8em; font-weight: 700; color: var(--text-muted); min-width: 50px; text-align: center; }
-
+ 
         /* ── MODAL ── */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .modal-box { background: var(--surface); margin: 30px auto; padding: 24px; border-radius: 16px; max-width: 440px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
@@ -103,16 +103,16 @@
     </style>
 </head>
 <body>
-
+ 
 <h2>📐 Libreta Topográfica</h2>
-
+ 
 <div class="tabs">
     <button id="btn-tab-estacion" class="tab-btn active" onclick="cambiarPestana('pestana-estacion', this)">🛰️ Estacionar</button>
     <button class="tab-btn" onclick="cambiarPestana('pestana-datos', this)">📥 Puntos</button>
     <button class="tab-btn" onclick="cambiarPestana('pestana-rectas', this)">📏 Rectas</button>
     <button class="tab-btn" onclick="cambiarPestana('pestana-areas', this)">🗺️ Áreas</button>
 </div>
-
+ 
 <!-- PESTAÑA 1: ESTACIONAMIENTO -->
 <div id="pestana-estacion" class="tab-content active">
     <div class="card">
@@ -151,7 +151,7 @@
         <div id="resEstacion" class="result-box" style="display:block; background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">⚠️ Estación vacía. Registra la base para poder tomar puntos.</div>
     </div>
 </div>
-
+ 
 <!-- PESTAÑA 2: ENTRADA DE DATOS DESDE LA ET -->
 <div id="pestana-datos" class="tab-content">
     <div class="card" style="border-left: 6px solid var(--success);">
@@ -192,10 +192,10 @@
         <div id="resultadoPunto" class="result-box" style="display:none; background:#f0fdf4; border-color:var(--success); color:#065f46; text-align:left; line-height:1.7;"></div>
     </div>
 </div>
-
+ 
 <!-- PESTAÑA 3: RECTAS E INTERSECCIONES -->
 <div id="pestana-rectas" class="tab-content">
-
+ 
     <!-- DISTANCIA ENTRE PUNTOS (nuevo) -->
     <div class="card" style="border-left: 6px solid var(--primary);">
         <h3>📏 Distancia entre Puntos</h3>
@@ -206,7 +206,7 @@
         <button class="btn-blue" style="margin-top:12px;" onclick="calcularDistanciaPuntos()">📐 Calcular Distancia</button>
         <div id="resultadoDistancia" class="result-box" style="background:#eff6ff; border-color:var(--primary); color:#1e40af; text-align:left; line-height:1.8;"></div>
     </div>
-
+ 
     <div class="card" style="border-left: 6px solid var(--purple);">
         <h3>📏 Herramientas de Rectas y Tramos</h3>
         <div class="row">
@@ -237,7 +237,7 @@
         </div>
         <div id="resultadoRecta" class="result-box" style="background: #f5eef8; border-color: var(--purple); color: var(--purple);"></div>
     </div>
-
+ 
     <div class="card" style="border-left: 6px solid var(--danger);">
         <h3>✖️ Prolongación e Intersección de 2 Líneas</h3>
         <div class="quad">
@@ -250,7 +250,7 @@
         <div id="resultadoInterseccion" class="result-box" style="background: #fdedec; border-color: var(--danger); color: var(--danger);"></div>
     </div>
 </div>
-
+ 
 <!-- PESTAÑA 4: CÁLCULO DE ÁREAS -->
 <div id="pestana-areas" class="tab-content">
     <div class="card" style="border-left: 6px solid var(--warning);">
@@ -261,14 +261,14 @@
         <div id="resultadoArea" class="result-box" style="background: #fef9e7; border-color: var(--warning); color: #b7950b;"></div>
     </div>
 </div>
-
+ 
 <!-- BOTONES GLOBALES -->
 <div class="triple" style="margin-top: 8px; gap: 10px;">
     <button class="btn-blue" onclick="descargarCSV()">💾 Exportar Excel</button>
     <button class="btn-blue" onclick="descargarDXF()" style="background-color: var(--slate-dark);">📐 Exportar AutoCAD</button>
     <button class="btn-red" onclick="borrarTodoElTrabajo()" style="background-color: #94a3b8;">🗑️ Reset General</button>
 </div>
-
+ 
 <!-- PANEL INFERIOR PERMANENTE -->
 <div class="workspace">
     <div class="panel-lista">
@@ -290,7 +290,7 @@
         </div>
     </div>
 </div>
-
+ 
 <!-- ══════════════════════════════════════
      MODAL: EDITAR PUNTO
 ════════════════════════════════════════ -->
@@ -325,7 +325,7 @@
         </div>
     </div>
 </div>
-
+ 
 <script>
     // ═══════════════════════════════════════
     //  CONVERSIÓN GRADOS DECIMALES → G° M' S"
@@ -339,12 +339,12 @@
         const s = (mTotal - m) * 60;
         return `${sign}${d}° ${String(m).padStart(2,'0')}' ${s.toFixed(1).padStart(4,'0')}"`;
     }
-
+ 
     let puntos = {};
     let contadorCruces = 1;
     let contadorProlongaciones = 1;
     let Estacion = { x: 0, y: 0, z: 0, altInst: 1.5, azimut: 0, id: "0" };
-
+ 
     // ── Canvas zoom / pan state ──
     let mapZoom = 1;
     let mapPanX = 0;
@@ -352,10 +352,10 @@
     let isDragging = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
-
+ 
     // ── Edit modal state ──
     let editandoIdOriginal = null;
-
+ 
     // ═══════════════════════════════════════
     //  INICIALIZACIÓN
     // ═══════════════════════════════════════
@@ -375,7 +375,7 @@
         }
         setupCanvasEvents();
     };
-
+ 
     // ═══════════════════════════════════════
     //  PESTAÑAS
     // ═══════════════════════════════════════
@@ -386,7 +386,7 @@
         boton.classList.add('active');
         if (idContenido === 'pestana-datos' || idContenido === 'pestana-estacion') dibujarPlano();
     }
-
+ 
     // ═══════════════════════════════════════
     //  ESTACIÓN
     // ═══════════════════════════════════════
@@ -395,27 +395,27 @@
         document.getElementById('bloque-origen').style.display = metodo === 'origen' ? 'block' : 'none';
         document.getElementById('bloque-anterior').style.display = metodo === 'anterior' ? 'block' : 'none';
     }
-
+ 
     function actualizarMensajeEstacion() {
         const box = document.getElementById('resEstacion');
         box.innerHTML = `🟢 <b>Estación Activa (Punto ${Estacion.id}):</b><br>X: ${Estacion.x.toFixed(3)} · Y: ${Estacion.y.toFixed(3)}<br>Azimut de Limbo: <b>${Estacion.azimut.toFixed(4)}°</b>`;
     }
-
+ 
     function guardarEnMemoriaLocal() {
         localStorage.setItem("topografia_puntos", JSON.stringify(puntos));
         localStorage.setItem("topografia_cruces", contadorCruces);
         localStorage.setItem("topografia_prolongaciones", contadorProlongaciones);
         localStorage.setItem("topografia_estacion", JSON.stringify(Estacion));
     }
-
+ 
     function borrarTodoElTrabajo() {
         if (confirm("¿Borrar todo el proyecto?")) { localStorage.clear(); location.reload(); }
     }
-
+ 
     function fijarEstacionBase() {
         const metodo = document.getElementById('metodoEstacion').value;
         Estacion.altInst = parseFloat(document.getElementById('altAparato').value) || 0;
-
+ 
         if (metodo === 'origen') {
             Estacion.x = parseFloat(document.getElementById('baseX').value) || 0;
             Estacion.y = parseFloat(document.getElementById('baseY').value) || 0;
@@ -428,29 +428,29 @@
             const pRef = document.getElementById('puntoReferenciado').value.trim();
             const lecturaHz = parseFloat(document.getElementById('lecturaHzReferencia').value);
             const distControl = parseFloat(document.getElementById('distanciaControl').value);
-
+ 
             if (!puntos[pOcupado] || !puntos[pRef] || isNaN(lecturaHz)) {
                 alert("Error: Los puntos indicados no existen en el registro o falta la lectura.");
                 return;
             }
-
+ 
             const dx = puntos[pRef].x - puntos[pOcupado].x;
             const dy = puntos[pRef].y - puntos[pOcupado].y;
             const distTeorica = Math.sqrt(dx*dx + dy*dy);
-
+ 
             if (!isNaN(distControl)) {
                 const errorDist = Math.abs(distTeorica - distControl);
                 if (errorDist > 0.03) {
                     if (!confirm(`⚠️ ¡ALERTA DE ERROR! La distancia medida varía ${errorDist.toFixed(3)}m de la teórica (${distTeorica.toFixed(3)}m). ¿Deseas continuar de todos modos?`)) return;
                 }
             }
-
+ 
             let azimutReal = Math.atan2(dx, dy) * (180 / Math.PI);
             if (azimutReal < 0) azimutReal += 360;
-
+ 
             let azimutCalculado = azimutReal - lecturaHz;
             if (azimutCalculado < 0) azimutCalculado += 360;
-
+ 
             Estacion.x = puntos[pOcupado].x;
             Estacion.y = puntos[pOcupado].y;
             Estacion.z = puntos[pOcupado].z;
@@ -459,11 +459,11 @@
             document.getElementById('azimutRef').value = azimutCalculado.toFixed(4);
             puntos[pOcupado].codigo = "Estación";
         }
-
+ 
         actualizarMensajeEstacion(); guardarEnMemoriaLocal(); actualizarListadoYPlano();
         alert("Estación configurada con éxito. Ya puedes ir a la pestaña 'Puntos'.");
     }
-
+ 
     // ═══════════════════════════════════════
     //  REGISTRO DE PUNTO
     // ═══════════════════════════════════════
@@ -474,7 +474,7 @@
         const hzM = parseFloat(document.getElementById('angHorM').value) || 0;
         const hzS = parseFloat(document.getElementById('angHorS').value) || 0;
         const hzRaw = hzG + hzM / 60 + hzS / 3600;
-
+ 
         const vG  = parseFloat(document.getElementById('angVertG').value);
         const vM  = parseFloat(document.getElementById('angVertM').value) || 0;
         const vS  = parseFloat(document.getElementById('angVertS').value) || 0;
@@ -483,19 +483,19 @@
         const ap = parseFloat(document.getElementById('altPrisma').value);
         const cod = document.getElementById('codigoPunto').value;
         if (!pt || isNaN(di)) { alert("Faltan datos."); return; }
-
+ 
         const anguloFinalDeg = (hzRaw + Estacion.azimut) % 360;
         const hzRad = anguloFinalDeg * (Math.PI / 180);
         const vRad = vRaw * (Math.PI / 180);
-
+ 
         const dh = di * Math.sin(vRad);
         const x = Estacion.x + (dh * Math.sin(hzRad));
         const y = Estacion.y + (dh * Math.cos(hzRad));
         const z = Estacion.z + Estacion.altInst + (di * Math.cos(vRad)) - ap;
-
+ 
         puntos[pt] = { x, y, z, hzReplanteo: hzRaw.toFixed(4), dhReplanteo: dh.toFixed(3), codigo: cod, orden: Date.now() };
         guardarEnMemoriaLocal(); actualizarListadoYPlano();
-
+ 
         // ── Mostrar resultado con el mismo formato que las tarjetas ──
         const resBox = document.getElementById('resultadoPunto');
         resBox.innerHTML =
@@ -503,7 +503,7 @@
             `<span style="font-family:'Courier New',monospace;">X ${x.toFixed(3)} · Y ${y.toFixed(3)} · Z ${z.toFixed(3)}</span><br>` +
             `<span style="font-family:'Courier New',monospace;color:#b7950b;">↺ Hz ${decToDMS(hzRaw)} · Dh ${dh.toFixed(3)} m</span>`;
         resBox.style.display = "block";
-
+ 
         if (!isNaN(pt)) document.getElementById('punto').value = parseInt(pt) + 1;
         document.getElementById('angHorG').value = "";
         document.getElementById('angHorM').value = "";
@@ -514,7 +514,7 @@
         document.getElementById('codigoPunto').value = "Marco";
         document.getElementById('angHorG').focus();
     }
-
+ 
     // ═══════════════════════════════════════
     //  CÁLCULO DE DISTANCIA ENTRE PUNTOS (nuevo)
     // ═══════════════════════════════════════
@@ -539,7 +539,7 @@
             `🧭 <b>Azimut A→B:</b> ${decToDMS(azimutAB)}`;
         resBox.style.display = "block";
     }
-
+ 
     // ═══════════════════════════════════════
     //  REPLANTEO
     // ═══════════════════════════════════════
@@ -550,7 +550,7 @@
         if (hzMaquina < 0) hzMaquina += 360;
         return { hz: (hzMaquina % 360).toFixed(4), dh: dh.toFixed(3) };
     }
-
+ 
     // ═══════════════════════════════════════
     //  BORRAR PUNTO
     // ═══════════════════════════════════════
@@ -559,7 +559,7 @@
             delete puntos[id]; guardarEnMemoriaLocal(); actualizarListadoYPlano();
         }
     }
-
+ 
     // ═══════════════════════════════════════
     //  LISTADO DE PUNTOS (formato renovado)
     // ═══════════════════════════════════════
@@ -567,12 +567,12 @@
         const clases = { "Estación": "badge-estacion", "Marco": "badge-marco", "Intersección": "badge-interseccion", "Ref.": "badge-ref" };
         return `<span class="badge ${clases[codigo] || 'badge-marco'}">${codigo}</span>`;
     }
-
+ 
     function actualizarListadoYPlano() {
         const contenedor = document.getElementById('listaPuntosVisual');
         contenedor.innerHTML = "";
         let keys = Object.keys(puntos).sort((a,b) => isNaN(a)||isNaN(b) ? a.localeCompare(b) : parseInt(a)-parseInt(b));
-
+ 
         keys.forEach(id => {
             const p = puntos[id];
             const div = document.createElement('div');
@@ -587,13 +587,13 @@
                 <div class="pt-angles">↺ Hz ${decToDMS(p.hzReplanteo)} · Dh ${p.dhReplanteo} m</div>`;
             contenedor.appendChild(div);
         });
-
+ 
         dibujarPlano();
         let maxPt = 0;
         for (let id in puntos) { if (!isNaN(id)) maxPt = Math.max(maxPt, parseInt(id)); }
         document.getElementById('punto').value = maxPt + 1;
     }
-
+ 
     // ═══════════════════════════════════════
     //  MODAL EDITAR PUNTO
     // ═══════════════════════════════════════
@@ -609,16 +609,16 @@
         document.getElementById('editCodigo').value = p.codigo || 'Marco';
         document.getElementById('modalEditarPunto').style.display = 'block';
     }
-
+ 
     function cerrarModalEditar() {
         document.getElementById('modalEditarPunto').style.display = 'none';
         editandoIdOriginal = null;
     }
-
+ 
     function cerrarModalSiOverlay(event) {
         if (event.target === document.getElementById('modalEditarPunto')) cerrarModalEditar();
     }
-
+ 
     function guardarEdicionPunto() {
         const nuevoId = document.getElementById('editId').value.trim();
         if (!nuevoId) { alert("El nombre del punto no puede estar vacío."); return; }
@@ -629,14 +629,14 @@
         const dh = document.getElementById('editDh').value;
         const cod = document.getElementById('editCodigo').value;
         if (isNaN(x) || isNaN(y) || isNaN(z)) { alert("Las coordenadas X, Y, Z deben ser números válidos."); return; }
-
+ 
         // Si cambia el nombre, verificar conflicto
         if (nuevoId !== editandoIdOriginal && puntos[nuevoId]) {
             if (!confirm(`El punto "${nuevoId}" ya existe. ¿Reemplazarlo?`)) return;
         }
-
+ 
         const puntoActualizado = { ...puntos[editandoIdOriginal], x, y, z, hzReplanteo: hz, dhReplanteo: dh, codigo: cod };
-
+ 
         if (nuevoId !== editandoIdOriginal) {
             delete puntos[editandoIdOriginal];
             if (Estacion.id === editandoIdOriginal) Estacion.id = nuevoId;
@@ -646,7 +646,7 @@
         actualizarListadoYPlano();
         cerrarModalEditar();
     }
-
+ 
     // ═══════════════════════════════════════
     //  DIBUJAR PLANO CON ZOOM + PAN
     // ═══════════════════════════════════════
@@ -654,34 +654,34 @@
         const canvas = document.getElementById('mapaCanvas');
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+ 
         // Cuadrícula de fondo
         ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 0.5;
         for (let i = 0; i <= canvas.width; i += 30) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke(); }
         for (let i = 0; i <= canvas.height; i += 30) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); ctx.stroke(); }
-
+ 
         let keys = Object.keys(puntos);
         if (keys.length === 0) return;
-
+ 
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
         keys.forEach(id => { const p = puntos[id]; minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); });
         let rangeX = maxX - minX; let rangeY = maxY - minY; let maxRange = Math.max(rangeX, rangeY, 1);
         let baseScale = (canvas.width - 60) / maxRange;
         let baseOffsetX = (canvas.width / 2) - (baseScale * (minX + maxX) / 2);
         let baseOffsetY = (canvas.height / 2) - (baseScale * (minY + maxY) / 2);
-
+ 
         // Aplicar zoom y pan via transform
         ctx.save();
         ctx.translate(canvas.width / 2 + mapPanX, canvas.height / 2 + mapPanY);
         ctx.scale(mapZoom, mapZoom);
         ctx.translate(-canvas.width / 2, -canvas.height / 2);
-
+ 
         const toX = (wx) => baseOffsetX + wx * baseScale;
         const toY = (wy) => canvas.height - (baseOffsetY + wy * baseScale);
-
+ 
         const verLineas = document.getElementById('chkLineas').checked;
         const verTextos = document.getElementById('chkTextos').checked;
-
+ 
         if (verLineas) {
             let puntosMarco = Object.keys(puntos).filter(id => puntos[id].codigo === "Marco").sort((a, b) => puntos[a].orden - puntos[b].orden);
             if (puntosMarco.length > 1) {
@@ -694,12 +694,14 @@
                 ctx.stroke();
             }
         }
-
+ 
+        const posicionesTexto = [];
+ 
         keys.forEach(id => {
             const p = puntos[id];
             const cx = toX(p.x); const cy = toY(p.y);
             const codigo = p.codigo || "Marco";
-
+ 
             ctx.beginPath();
             if (codigo === "Estación") {
                 ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2.5;
@@ -713,15 +715,26 @@
                 ctx.moveTo(cx, cy - 5); ctx.lineTo(cx, cy + 5); ctx.stroke();
             }
             if (verTextos) {
-                ctx.fillStyle = "#94a3b8"; ctx.font = "bold 10px sans-serif";
-                ctx.fillText(id, cx + 6, cy - 2);
+                const screenX = (cx - canvas.width / 2) * mapZoom + canvas.width / 2 + mapPanX;
+                const screenY = (cy - canvas.height / 2) * mapZoom + canvas.height / 2 + mapPanY;
+                posicionesTexto.push({ id, screenX, screenY });
             }
         });
-
+ 
         ctx.restore();
+ 
+        if (verTextos) {
+            const fontSize = Math.min(Math.max(Math.round(10 * mapZoom), 9), 22);
+            ctx.font = `bold ${fontSize}px sans-serif`;
+            ctx.fillStyle = "#94a3b8";
+            const offset = 5 + mapZoom * 2;
+            posicionesTexto.forEach(({ id, screenX, screenY }) => {
+                ctx.fillText(id, screenX + offset, screenY - 2);
+            });
+        }
         document.getElementById('zoomLabel').textContent = Math.round(mapZoom * 100) + '%';
     }
-
+ 
     // ═══════════════════════════════════════
     //  EVENTOS DE ZOOM Y PAN DEL CANVAS
     // ═══════════════════════════════════════
@@ -729,15 +742,15 @@
         mapZoom = Math.max(0.3, Math.min(15, mapZoom * factor));
         dibujarPlano();
     }
-
+ 
     function centrarPlano() {
         mapZoom = 1; mapPanX = 0; mapPanY = 0;
         dibujarPlano();
     }
-
+ 
     function setupCanvasEvents() {
         const canvas = document.getElementById('mapaCanvas');
-
+ 
         // Rueda del ratón → zoom
         canvas.addEventListener('wheel', (e) => {
             e.preventDefault();
@@ -745,7 +758,7 @@
             mapZoom = Math.max(0.3, Math.min(15, mapZoom * factor));
             dibujarPlano();
         }, { passive: false });
-
+ 
         // Arrastre con ratón → pan
         canvas.addEventListener('mousedown', (e) => { isDragging = true; lastMouseX = e.clientX; lastMouseY = e.clientY; });
         canvas.addEventListener('mousemove', (e) => {
@@ -756,11 +769,11 @@
         });
         canvas.addEventListener('mouseup', () => { isDragging = false; });
         canvas.addEventListener('mouseleave', () => { isDragging = false; });
-
+ 
         // Touch: pellizco → zoom, 1 dedo → pan
         let lastTouchDist = null;
         let lastTouchX = null, lastTouchY = null;
-
+ 
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (e.touches.length === 2) {
@@ -774,7 +787,7 @@
                 lastTouchDist = null;
             }
         }, { passive: false });
-
+ 
         canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
             if (e.touches.length === 2) {
@@ -794,12 +807,12 @@
             }
             dibujarPlano();
         }, { passive: false });
-
+ 
         canvas.addEventListener('touchend', () => {
             lastTouchDist = null; lastTouchX = null; lastTouchY = null;
         });
     }
-
+ 
     // ═══════════════════════════════════════
     //  RECTAS, INTERPOLACIONES
     // ═══════════════════════════════════════
@@ -809,7 +822,7 @@
         if (!puntos[p1] || !puntos[p2]) { alert("Puntos inválidos."); return null; }
         return { A: puntos[p1], B: puntos[p2], idA: p1, idB: p2 };
     }
-
+ 
     function generarPuntosCadaX() {
         const datos = obtenerPuntosAB(); if (!datos) return;
         const distIntervalo = parseFloat(document.getElementById('distFija').value);
@@ -826,7 +839,7 @@
         document.getElementById('resultadoRecta').innerText = `✅ Tramos calculados con éxito en la lista inferior.`;
         document.getElementById('resultadoRecta').style.display = "block";
     }
-
+ 
     function generarPuntosPorDivision() {
         const datos = obtenerPuntosAB(); if (!datos) return;
         const partes = parseInt(document.getElementById('numPartes').value);
@@ -842,7 +855,7 @@
         document.getElementById('resultadoRecta').innerText = `✅ Segmento dividido con éxito. Revisa la lista inferior.`;
         document.getElementById('resultadoRecta').style.display = "block";
     }
-
+ 
     function prolongarDesdePunto() {
         const idBase = document.getElementById('proPBase').value.trim();
         const idDir = document.getElementById('proPDireccion').value.trim();
@@ -864,7 +877,7 @@
         resBox.innerHTML = `🎯 Guardado: <b>${nombreProlongacion}</b><br>X ${xi.toFixed(3)} · Y ${yi.toFixed(3)}<br>↺ Hz ${decToDMS(rep.hz)} · Dh ${rep.dh} m`;
         resBox.style.display = "block";
     }
-
+ 
     // ═══════════════════════════════════════
     //  INTERSECCIÓN DE LÍNEAS
     // ═══════════════════════════════════════
@@ -885,7 +898,7 @@
         resBox.innerHTML = `🎯 Guardado: <b>${nombreCruce}</b><br>X ${xi.toFixed(3)} · Y ${yi.toFixed(3)}<br>↺ Hz ${decToDMS(rep.hz)} · Dh ${rep.dh} m`;
         resBox.style.display = "block";
     }
-
+ 
     // ═══════════════════════════════════════
     //  ÁREA
     // ═══════════════════════════════════════
@@ -904,7 +917,7 @@
         res.innerHTML = `📐 Superficie: <b>${area.toFixed(2)} m²</b><br>🏃 Perímetro: <b>${perimetro.toFixed(2)} m</b>`;
         res.style.display = "block";
     }
-
+ 
     // ═══════════════════════════════════════
     //  EXPORTAR CSV
     // ═══════════════════════════════════════
@@ -922,7 +935,7 @@
         const link = document.createElement("a"); link.href = URL.createObjectURL(blob);
         link.setAttribute("download", "levantamiento_excel.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);
     }
-
+ 
     // ═══════════════════════════════════════
     //  EXPORTAR DXF
     // ═══════════════════════════════════════
@@ -952,3 +965,4 @@
 </script>
 </body>
 </html>
+ 
